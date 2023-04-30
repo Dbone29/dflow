@@ -15,6 +15,7 @@ require (
 )
 
 require (
+	github.com/Dbone29/authority v0.0.0-20230430160048-19bb1efd6695 // indirect
 	github.com/bytedance/sonic v1.8.8 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
@@ -60,5 +61,3 @@ require (
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
-
-replace github.com/Dbone29/authority => github.com/harranali/authority v0.0.0-20210731152818-71456c68df22

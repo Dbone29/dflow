@@ -33,6 +33,8 @@ func InitApi(logger *zap.Logger, port int) *DflowApi {
 	//   - stack means whether output the stack info.
 	r.Use(ginzap.RecoveryWithZap(logger, true))
 
+	//	r.Use(bundle)
+
 	pl := pipeline.InitApi.Execute(pipeline.InitApiPayload{
 		Gin: r,
 	})

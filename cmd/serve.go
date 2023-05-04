@@ -7,6 +7,7 @@ import (
 	"github.com/Dbone29/dflow/internal/api"
 	"github.com/Dbone29/dflow/internal/config"
 	"github.com/Dbone29/dflow/internal/database"
+	"github.com/Dbone29/dflow/internal/intl"
 	"github.com/Dbone29/dflow/internal/log"
 	pluginmanager "github.com/Dbone29/dflow/internal/plugin-manager"
 	"github.com/Dbone29/dflow/internal/storage"
@@ -35,6 +36,8 @@ to quickly create a Cobra application.`,
 		// load configs
 		logger.Info("loading configs...")
 		cf := config.LoadConfig()
+
+		intl.InitIntl( /*cf.Main.Language*/ )
 
 		// init database
 		logger.Info("init database...")

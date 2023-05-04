@@ -15,10 +15,19 @@ type PluginManager struct {
 	plugins   []dplugin.DflowPlugin
 }
 
-func InitPluginManager(logger *zap.Logger, pluginDir string) *PluginManager {
+func InitPluginManager(logger *zap.Logger, pluginDir string, plugins *[]dplugin.DflowPlugin) *PluginManager {
+	var p []dplugin.DflowPlugin
+
+	if plugins != nil {
+		p = *plugins
+	} else {
+		p = make([]dplugin.DflowPlugin, 0)
+	}
+
 	return &PluginManager{
 		logger:    logger,
 		pluginDir: pluginDir,
+		plugins:   p,
 	}
 }
 

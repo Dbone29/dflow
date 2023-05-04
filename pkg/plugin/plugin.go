@@ -1,15 +1,15 @@
 package plugin
 
 import (
-	"github.com/Dbone29/dflow/internal/database"
 	"github.com/Dbone29/dflow/pkg/events"
 	"go.uber.org/zap"
+	"gorm.io/gorm"
 )
 
 type DflowPluginState struct {
 	Logger       *zap.Logger
 	EventManager *events.Event
-	Database     *database.DflowDatabase
+	Database     *gorm.DB
 }
 
 type DflowPluginInfo struct {

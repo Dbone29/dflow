@@ -8,7 +8,6 @@ import (
 	"github.com/Dbone29/dflow/internal/log"
 	pluginmanager "github.com/Dbone29/dflow/internal/plugin-manager"
 	"github.com/Dbone29/dflow/internal/storage"
-	"github.com/Dbone29/dflow/pkg/plugin"
 	dplugin "github.com/Dbone29/dflow/pkg/plugin"
 	"go.uber.org/zap"
 )
@@ -43,9 +42,9 @@ func Serve(plugins *[]dplugin.DflowPlugin) {
 		logger.Error("Failed to load plugins", zap.Error(err))
 	}
 
-	err = pm.ActivatePlugins(plugin.DflowPluginState{
+	err = pm.ActivatePlugins(dplugin.DflowPluginState{
 		Logger:   logger,
-		Database: db,
+		Database: db.Database,
 	})
 	if err != nil {
 		logger.Error("Failed to activate plugins", zap.Error(err))

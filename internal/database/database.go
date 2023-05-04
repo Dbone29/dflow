@@ -12,8 +12,8 @@ import (
 )
 
 type DflowDatabase struct {
-	logger *zap.Logger
-	db     *gorm.DB
+	logger   *zap.Logger
+	Database *gorm.DB
 }
 
 func InitDatabase(logger *zap.Logger, config *config.DatabaseConfig) *DflowDatabase {
@@ -41,7 +41,7 @@ func InitDatabase(logger *zap.Logger, config *config.DatabaseConfig) *DflowDatab
 	db.AutoMigrate()
 
 	return &DflowDatabase{
-		logger: logger,
-		db:     db,
+		logger:   logger,
+		Database: db,
 	}
 }

@@ -14,23 +14,23 @@ type LocalStorage struct {
 	logger   *zap.Logger
 }
 
-func NewLocalStorage(logger *zap.Logger) *LocalStorage {
+func NewLocalStorage(basePath string, logger *zap.Logger) *LocalStorage {
 	return &LocalStorage{
-		basePath: "./files",
+		basePath: basePath,
 		logger:   logger,
 	}
 }
 
-func (ls *LocalStorage) UploadFile(objectName string, path string, contentType string, data []byte) error {
+func (ls *LocalStorage) UploadFile(objectName, path, contentType string, data []byte) error {
 	fullPath := filepath.Join(ls.basePath, path)
 
-	err := os.MkdirAll(filepath.Dir(fullPath), 0755)
+	err := os.MkdirAll(fullPath, os.ModePerm)
 	if err != nil {
 		ls.logger.Error("Failed to create directory for file", zap.String("path", fullPath), zap.Error(err))
 		return err
 	}
 
-	file, err := os.Create(fullPath)
+	file, err := os.Create(filepath.Join(fullPath, objectName))
 	if err != nil {
 		ls.logger.Error("Failed to create file", zap.String("path", fullPath), zap.Error(err))
 		return err

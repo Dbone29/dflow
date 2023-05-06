@@ -11,7 +11,7 @@ type DflowPluginState struct {
 	Logger       *zap.Logger
 	EventManager *events.Event
 	Database     *gorm.DB
-	Strorage     *storage.DflowStorage
+	Storage      *storage.DflowStorage
 }
 
 type DflowPluginInfo struct {

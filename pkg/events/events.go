@@ -4,7 +4,6 @@ import (
 	"math"
 	"sort"
 	"sync"
-	"time"
 )
 
 type EventPayload interface{}
@@ -46,11 +45,4 @@ func (e *Event) Trigger(payload EventPayload) {
 	for _, handler := range e.handlers {
 		go handler.Handle(payload)
 	}
-}
-
-var UserCreated = &Event{}
-
-type UserCreatedPayload struct {
-	Email string
-	Time  time.Time
 }

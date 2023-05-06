@@ -8,6 +8,7 @@ import (
 	"github.com/Dbone29/dflow/internal/log"
 	pluginmanager "github.com/Dbone29/dflow/internal/plugin-manager"
 	"github.com/Dbone29/dflow/internal/storage"
+	"github.com/Dbone29/dflow/pkg/pipeline"
 	dplugin "github.com/Dbone29/dflow/pkg/plugin"
 	"go.uber.org/zap"
 )
@@ -49,6 +50,14 @@ func Serve(plugins *[]dplugin.DflowPlugin) {
 	if err != nil {
 		logger.Error("Failed to activate plugins", zap.Error(err))
 	}
+
+	pl := pipeline.InitDatabase.Execute(pipeline.InitDatabasePayload{
+		Entities: []interface{}{},
+	})
+
+	entities := pl.(pipeline.InitDatabasePayload).Entities
+
+	db.Database.AutoMigrate(entities...)
 
 	// init api server
 	apiServer := api.InitApi(logger, 8080)

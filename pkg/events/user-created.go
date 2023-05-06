@@ -2,7 +2,15 @@ package events
 
 import (
 	"fmt"
+	"time"
 )
+
+var UserCreated = &Event{}
+
+type UserCreatedPayload struct {
+	Email string
+	Time  time.Time
+}
 
 type UserCreatedHandler struct{}
 

@@ -7,6 +7,7 @@ import (
 	"github.com/Dbone29/dflow/internal/intl"
 	"github.com/Dbone29/dflow/internal/log"
 	pluginmanager "github.com/Dbone29/dflow/internal/plugin-manager"
+	"github.com/Dbone29/dflow/internal/rbac"
 	"github.com/Dbone29/dflow/internal/storage"
 	"github.com/Dbone29/dflow/pkg/pipeline"
 	dplugin "github.com/Dbone29/dflow/pkg/plugin"
@@ -29,6 +30,9 @@ func Serve(plugins *[]dplugin.DflowPlugin) {
 	// init database
 	logger.Info("init database...")
 	db := database.InitDatabase(logger, &cf.Main.Database)
+
+	logger.Info("init rbac...")
+	rbac.InitRbac(logger, db)
 
 	// init storage
 	logger.Info("init storage...")

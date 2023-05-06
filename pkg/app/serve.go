@@ -50,6 +50,7 @@ func Serve(plugins *[]dplugin.DflowPlugin) {
 	err = pm.ActivatePlugins(dplugin.DflowPluginState{
 		Logger:   logger,
 		Database: db.Database,
+		Strorage: &dflowStorage,
 	})
 	if err != nil {
 		logger.Error("Failed to activate plugins", zap.Error(err))

@@ -31,6 +31,10 @@ type S3StorageConfig struct {
 	BucketName      string
 }
 
+type LocalStorageConfig struct {
+	BasePath string
+}
+
 func LoadConfig() *Config {
 	// Set configuration file options
 	viper.SetConfigName("config")

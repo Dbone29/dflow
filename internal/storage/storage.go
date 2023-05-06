@@ -6,21 +6,19 @@ import (
 )
 
 type Storage interface {
-	UploadFile(path string, data []byte) error
+	UploadFile(objectName string, path string, contentType string, data []byte) error
 	DownloadFile(path string) ([]byte, error)
 }
 
-func InitStorage(logger *zap.Logger, cfg *config.S3StorageConfig) Storage {
+func InitStorage(logger *zap.Logger, s3StorageConfig *config.S3StorageConfig, localStorageConfig *config.LocalStorageConfig) Storage {
 	var store Storage
 
-	if len(cfg.Host+cfg.BucketName+cfg.AccessKeyID+cfg.SecretAccessKey) == 0 {
+	if len(s3StorageConfig.Host+s3StorageConfig.BucketName+s3StorageConfig.AccessKeyID+s3StorageConfig.SecretAccessKey) == 0 {
 		logger.Info("using local storage")
-
-		// TODO: use local storage
+		store = NewLocalStorage(logger, localStorageConfig)
 	} else {
 		logger.Info("using s3 storage")
-
-		// TODO: use s3 storage
+		store = NewS3Storage(logger, s3StorageConfig)
 	}
 
 	return store

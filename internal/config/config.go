@@ -12,8 +12,9 @@ type Config struct {
 }
 
 type MainConfig struct {
-	Database DatabaseConfig
-	Storage  S3StorageConfig
+	Database     DatabaseConfig
+	S3Storage    S3StorageConfig
+	LocalStorage LocalStorageConfig
 }
 
 type DatabaseConfig struct {

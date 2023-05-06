@@ -36,7 +36,7 @@ func Serve(plugins *[]dplugin.DflowPlugin) {
 
 	// init storage
 	logger.Info("init storage...")
-	storage.InitStorage(logger, &cf.Main.Storage)
+	dflowStorage := storage.InitStorage(logger, &cf.Main.Storage)
 
 	// init plugin manager
 	logger.Info("loading plugins...")

@@ -36,7 +36,7 @@ func Serve(plugins *[]dplugin.DflowPlugin) {
 
 	// init storage
 	logger.Info("init storage...")
-	storage.InitStorage(logger, &cf.Main.S3Storage, &cf.Main.LocalStorage)
+	dflowStorage := storage.InitStorage(logger, &cf.Main.S3Storage, &cf.Main.LocalStorage)
 
 	// init plugin manager
 	logger.Info("loading plugins...")
@@ -50,6 +50,7 @@ func Serve(plugins *[]dplugin.DflowPlugin) {
 	err = pm.ActivatePlugins(dplugin.DflowPluginState{
 		Logger:   logger,
 		Database: db.Database,
+		Strorage: &dflowStorage,
 	})
 	if err != nil {
 		logger.Error("Failed to activate plugins", zap.Error(err))

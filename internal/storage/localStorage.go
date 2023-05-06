@@ -6,7 +6,6 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/Dbone29/dflow/internal/config"
 	"go.uber.org/zap"
 )
 
@@ -15,9 +14,9 @@ type LocalStorage struct {
 	logger   *zap.Logger
 }
 
-func NewLocalStorage(logger *zap.Logger, config *config.LocalStorageConfig) *LocalStorage {
+func NewLocalStorage(logger *zap.Logger) *LocalStorage {
 	return &LocalStorage{
-		basePath: config.BasePath,
+		basePath: "./files",
 		logger:   logger,
 	}
 }

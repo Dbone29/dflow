@@ -10,15 +10,15 @@ type Storage interface {
 	DownloadFile(path string) ([]byte, error)
 }
 
-func InitStorage(logger *zap.Logger, s3StorageConfig *config.S3StorageConfig, localStorageConfig *config.LocalStorageConfig) Storage {
+func InitStorage(logger *zap.Logger, config *config.StorageConfig) Storage {
 	var store Storage
 
-	if len(s3StorageConfig.Host+s3StorageConfig.BucketName+s3StorageConfig.AccessKeyID+s3StorageConfig.SecretAccessKey) == 0 {
+	if len(config.Host+config.BucketName+config.AccessKeyID+config.SecretAccessKey) == 0 {
 		logger.Info("using local storage")
-		store = NewLocalStorage(logger, localStorageConfig)
+		store = NewLocalStorage(logger)
 	} else {
 		logger.Info("using s3 storage")
-		store = NewS3Storage(logger, s3StorageConfig)
+		store = NewS3Storage(logger, config)
 	}
 
 	return store

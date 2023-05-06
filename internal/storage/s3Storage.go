@@ -15,7 +15,7 @@ type S3Storage struct {
 	logger      *zap.Logger
 }
 
-func NewS3Storage(logger *zap.Logger, config *config.S3StorageConfig) *S3Storage {
+func NewS3Storage(logger *zap.Logger, config *config.StorageConfig) *S3Storage {
 	ctx := context.Background()
 
 	minioClient, err := minio.New(config.Host, &minio.Options{

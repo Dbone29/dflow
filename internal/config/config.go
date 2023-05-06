@@ -12,9 +12,8 @@ type Config struct {
 }
 
 type MainConfig struct {
-	Database     DatabaseConfig
-	S3Storage    S3StorageConfig
-	LocalStorage LocalStorageConfig
+	Database DatabaseConfig
+	Storage  StorageConfig
 }
 
 type DatabaseConfig struct {
@@ -25,15 +24,11 @@ type DatabaseConfig struct {
 	DBName   string
 }
 
-type S3StorageConfig struct {
+type StorageConfig struct {
 	Host            string
 	AccessKeyID     string
 	SecretAccessKey string
 	BucketName      string
-}
-
-type LocalStorageConfig struct {
-	BasePath string
 }
 
 func LoadConfig() *Config {

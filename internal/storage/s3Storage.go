@@ -2,6 +2,7 @@ package storage
 
 import (
 	"context"
+	"io"
 
 	"github.com/Dbone29/dflow/internal/config"
 	"github.com/minio/minio-go/v7"
@@ -20,7 +21,7 @@ func NewS3Storage(logger *zap.Logger, config *config.StorageConfig) *S3Storage {
 
 	minioClient, err := minio.New(config.Host, &minio.Options{
 		Creds:  credentials.NewStaticV4(config.AccessKeyID, config.SecretAccessKey, ""),
-		Secure: true,
+		Secure: false,
 	})
 	if err != nil {
 		logger.Panic("Failed to connect to s3 bucket", zap.Error(err))
@@ -38,15 +39,16 @@ func NewS3Storage(logger *zap.Logger, config *config.StorageConfig) *S3Storage {
 		logger.Info("Successfully created %s\n", zap.String("Bucket", config.BucketName))
 	}
 	return &S3Storage{
+		bucketName:  config.BucketName,
 		minioClient: minioClient,
 		logger:      logger,
 	}
 }
 
-func (s *S3Storage) UploadFile(objectName string, path string, contentType string, data []byte) error {
+func (s *S3Storage) UploadFile(objectName string, path string, contentType string, data []byte, reader io.Reader, objectSize int64) error {
 	ctx := context.Background()
 
-	_, err := s.minioClient.FPutObject(ctx, s.bucketName, objectName, path, minio.PutObjectOptions{ContentType: contentType})
+	_, err := s.minioClient.PutObject(ctx, s.bucketName, objectName, reader, objectSize, minio.PutObjectOptions{ContentType: contentType})
 	if err != nil {
 		s.logger.Error("Failed to upload file to S3", zap.String("path", path), zap.Error(err))
 		return err
@@ -55,6 +57,6 @@ func (s *S3Storage) UploadFile(objectName string, path string, contentType strin
 	return nil
 }
 
-func (s *S3Storage) DownloadFile(path string) ([]byte, error) {
+func (s *S3Storage) DownloadFile(objectName string, path string) ([]byte, error) {
 	return nil, nil
 }

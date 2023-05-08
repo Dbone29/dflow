@@ -21,7 +21,7 @@ func NewLocalStorage(basePath string, logger *zap.Logger) *LocalStorage {
 	}
 }
 
-func (ls *LocalStorage) UploadFile(objectName, path, contentType string, data []byte) error {
+func (ls *LocalStorage) UploadFile(objectName string, path string, contentType string, data []byte, reader io.Reader, objectSize int64) error {
 	fullPath := filepath.Join(ls.basePath, path)
 
 	err := os.MkdirAll(fullPath, os.ModePerm)
@@ -46,15 +46,12 @@ func (ls *LocalStorage) UploadFile(objectName, path, contentType string, data []
 	return nil
 }
 
-func (ls *LocalStorage) DownloadFile(path string) ([]byte, error) {
-	file, err := os.Open(path)
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
+func (ls *LocalStorage) DownloadFile(objectName string, path string) ([]byte, error) {
+	fullPath := filepath.Join(ls.basePath, path, objectName)
 
-	data, err := io.ReadAll(file)
+	data, err := os.ReadFile(fullPath)
 	if err != nil {
+		ls.logger.Error("Failed to read file", zap.String("path", fullPath), zap.Error(err))
 		return nil, err
 	}
 
